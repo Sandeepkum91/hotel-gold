@@ -38,7 +38,7 @@ const testimonials = [
 
 export default function Testimonials() {
   return (
-    <section className="py-24 overflow-hidden bg-luxury-bg border-y border-luxury-border">
+    <section className="py-24 overflow-hidden max-w-full bg-luxury-bg border-y border-luxury-border">
       <div className="max-w-7xl mx-auto px-6 mb-16 text-center">
         <motion.p 
           initial={{ opacity: 0 }}

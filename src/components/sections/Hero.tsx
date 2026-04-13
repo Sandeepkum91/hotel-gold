@@ -58,7 +58,7 @@ export default function Hero() {
             </span>
           </motion.div>
 
-          <h1 className="text-5xl sm:text-7xl md:text-[100px] lg:text-[120px] font-serif mb-10 leading-[1.1] md:leading-[0.9] tracking-tighter">
+          <h1 className="text-5xl sm:text-7xl md:text-[100px] lg:text-[120px] font-serif mb-10 leading-[1.3] md:leading-[0.9] tracking-tighter">
             <motion.span 
                initial={{ opacity: 0, x: -50 }}
                animate={{ opacity: 1, x: 0 }}
