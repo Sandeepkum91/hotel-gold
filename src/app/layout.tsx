@@ -8,6 +8,9 @@ const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-serif"
 export const metadata: Metadata = {
   title: "The Golden Arch Hotel | Luxury Reimagined",
   description: "Experience world-class hospitality in the heart of New Delhi. Luxury, comfort, and sophistication combined.",
+  icons: {
+    icon: "/favicon.png",
+  },
 };
 
 export default function RootLayout({
