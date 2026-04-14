@@ -67,7 +67,7 @@ export default function Footer() {
 
         <div className="pt-8 border-t border-luxury-border flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] uppercase tracking-[0.2em] text-luxury-text/40">
           <p>© 2024 The Golden Arch Hotel. All Rights Reserved.</p>
-          <p>Created with Elegance by Antigravity</p>
+          <p>Created with Elegance by Sandeep Kumar</p>
         </div>
       </div>
     </footer>
