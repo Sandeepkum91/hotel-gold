@@ -5,7 +5,10 @@ import { Bed, Users, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import React, { useRef } from "react";
 
-const rooms = [
+import { urlForImage } from "@/sanity/lib/image";
+import { RoomData } from "@/types/sanity";
+
+const staticRooms = [
   {
     id: 1,
     name: "Deluxe Room",
@@ -38,7 +41,7 @@ const rooms = [
   }
 ];
 
-function TiltCard({ room }: { room: typeof rooms[0] }) {
+function TiltCard({ room }: { room: any }) {
   const ref = useRef<HTMLDivElement>(null);
 
   const x = useMotionValue(0);
@@ -68,6 +71,10 @@ function TiltCard({ room }: { room: typeof rooms[0] }) {
     y.set(0);
   };
 
+  const imageUrl = room.image?.asset 
+    ? urlForImage(room.image).url() 
+    : room.image;
+
   return (
     <motion.div
       ref={ref}
@@ -89,9 +96,10 @@ function TiltCard({ room }: { room: typeof rooms[0] }) {
         className="relative h-96 w-full overflow-hidden"
       >
         <Image 
-          src={room.image} 
+          src={imageUrl} 
           alt={room.name}
           fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           className="object-cover transition-transform duration-700 group-hover:scale-110"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#1c1a17] via-transparent to-transparent opacity-80" />
@@ -123,7 +131,7 @@ function TiltCard({ room }: { room: typeof rooms[0] }) {
           </div>
 
           <div className="flex flex-wrap gap-2 mb-8">
-            {room.amenities.slice(0, 3).map(amenity => (
+            {room.amenities?.slice(0, 3).map((amenity: string) => (
               <span key={amenity} className="text-[9px] uppercase tracking-wider bg-luxury-gold/10 text-luxury-gold border border-luxury-gold/20 px-3 py-1 rounded-sm">
                 {amenity}
               </span>
@@ -145,7 +153,9 @@ function TiltCard({ room }: { room: typeof rooms[0] }) {
   );
 }
 
-export default function Rooms() {
+export default function Rooms({ data }: { data?: RoomData[] }) {
+  const displayRooms = data && data.length > 0 ? data : staticRooms;
+
   return (
     <section id="rooms" className="py-32 bg-luxury-bg relative overflow-hidden">
       {/* Abstract Background Element */}
@@ -174,8 +184,8 @@ export default function Rooms() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-          {rooms.map((room) => (
-            <TiltCard key={room.id} room={room} />
+          {displayRooms.map((room: any) => (
+            <TiltCard key={room._id || room.id} room={room} />
           ))}
         </div>
       </div>

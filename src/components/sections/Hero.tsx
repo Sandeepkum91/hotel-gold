@@ -3,8 +3,10 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import Image from "next/image";
+import { urlForImage } from "@/sanity/lib/image";
+import { HeroData } from "@/types/sanity";
 
-export default function Hero() {
+export default function Hero({ data }: { data?: HeroData }) {
   const containerRef = useRef(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -15,6 +17,10 @@ export default function Hero() {
   const bgScale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
   const textOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
   const textY = useTransform(scrollYProgress, [0, 0.5], [0, 100]);
+
+  const backgroundImageUrl = data?.backgroundImage 
+    ? urlForImage(data.backgroundImage).url() 
+    : "https://images.pexels.com/photos/189296/pexels-photo-189296.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2";
 
   return (
     <section ref={containerRef} className="relative h-[100svh] w-full flex items-center justify-center overflow-hidden bg-[#050505]">
@@ -27,9 +33,10 @@ export default function Hero() {
         transition={{ duration: 2, ease: [0.33, 1, 0.68, 1] }}
       >
         <Image 
-          src="https://images.pexels.com/photos/189296/pexels-photo-189296.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+          src={backgroundImageUrl}
           alt="Luxury Hotel Exterior"
           fill
+          sizes="100vw"
           priority
           className="object-cover"
         />
@@ -54,7 +61,7 @@ export default function Hero() {
             className="mb-8"
           >
             <span className="text-luxury-gold uppercase tracking-[0.4em] text-[10px] sm:text-xs font-bold inline-block border-b border-luxury-gold/30 pb-2">
-              The Epitome of Indian Hospitality
+              {data?.subtitle || "The Epitome of Indian Hospitality"}
             </span>
           </motion.div>
 
@@ -65,7 +72,7 @@ export default function Hero() {
                transition={{ delay: 0.8, duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
                className="block italic font-light"
             >
-              The Golden
+              {data?.title1 || "The Golden"}
             </motion.span>
             <motion.span 
                initial={{ opacity: 0, x: 50 }}
@@ -73,7 +80,7 @@ export default function Hero() {
                transition={{ delay: 1, duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
                className="block text-luxury-gold"
             >
-              Arch Hotel
+              {data?.title2 || "Arch Hotel"}
             </motion.span>
           </h1>
           

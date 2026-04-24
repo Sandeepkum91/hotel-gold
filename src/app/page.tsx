@@ -10,15 +10,33 @@ import Location from "@/components/sections/Location";
 import Booking from "@/components/sections/Booking";
 import Footer from "@/components/sections/Footer";
 
-export default function Home() {
+import { client } from "@/sanity/lib/client";
+import { heroQuery, roomsQuery, galleryQuery } from "@/sanity/lib/queries";
+
+export default async function Home() {
+  let heroData = null;
+  let roomsData = [];
+  let galleryData = [];
+
+  try {
+    [heroData, roomsData, galleryData] = await Promise.all([
+      client.fetch(heroQuery),
+      client.fetch(roomsQuery),
+      client.fetch(galleryQuery),
+    ]);
+  } catch (error) {
+    console.error("Sanity fetch error:", error);
+    // Data remains null/empty, components will use their static fallbacks
+  }
+
   return (
     <main className="min-h-screen overflow-x-hidden">
       <Navbar />
-      <Hero />
+      <Hero data={heroData} />
       <About />
-      <Rooms />
+      <Rooms data={roomsData} />
       <Amenities />
-      <Gallery />
+      <Gallery data={galleryData} />
       <Dining />
       <Testimonials />
       <Location />
